@@ -1,0 +1,24 @@
+﻿@page
+@model Apple.Pages.Customer.Home.IndexModel
+@{ ViewData["Title"] = "Home"; }
+<link rel="stylesheet" href="~/css/StyleSheet.css" />
+
+@foreach (var category in Model.CategoryList)
+{
+	@if (Model.CatalogsList.Where(c => c.CategoryId == category.Id).Count() > 0)
+	{
+		@foreach (var listItem in Model.CatalogsList.Where(c => c.CategoryId == category.Id))
+		{
+			<div class="text-center ml-5 mb-5" style="width: 18rem;">
+				<img class="card-img-top" src="@listItem.Image" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="display-4  card-title mb-3" style="font-size: 24px">@category.Name</h5>
+				</div>
+				<a asp-page="Details" asp-route-id="@listItem.Id">
+					<span class="text-primary">Learn More<i class="fas fa-angle-right ml-2"></i></span>
+				</a>
+			</div>
+		}
+	}
+}
+

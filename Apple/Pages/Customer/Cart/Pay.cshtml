@@ -1,0 +1,146 @@
+﻿@page
+@model Apple.Pages.Customer.Cart.PayModel
+@inject  IOptions<Settings.StripeSettings> Stripe
+@using Microsoft.Extensions.Options
+
+@{
+    ViewData["Title"] = "Pay";
+}
+
+<form method="post">
+    <br />
+
+    @if (Model.detailCart.ShoppingCarts.Count > 0)
+    {
+        <input asp-for="@Model.detailCart.ShoppingCarts[0].ApplicationUserId" hidden />
+    <div class="">
+        <div class="container mb-5">
+            <div>
+                <div class="ml-0 row container">
+                    <div class="col-6 display-4" style="font-size: 20px">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Order
+                    </div>
+                    <div class="col-6 text-right">
+                        <a asp-page="Index" class="btn btn-outline-success btn-sm">Back to Cart</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="display-4" style="font-size: 25px">Details:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label class="lead">Name</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input id="txtName" asp-for="@Model.detailCart.OrderHeaders.PickupName" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label class="lead">Phone Number</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input id="txtPhone" asp-for="@Model.detailCart.OrderHeaders.PhoneNumber" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">
+                                        <label class="lead">Pickup Date</label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input id="datepicker" value="" asp-for="@Model.detailCart.OrderHeaders.PickUpDate" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3 ml-4">
+                                    <span class="display-4" style="font-size: 25px">Order:</span>
+                                </h4>
+                                <ul class="mb-3">
+                                    @{ var total = 0.0;}
+                                    @foreach (var details in Model.detailCart.ShoppingCarts)
+                                    {
+                                    <li class="d-flex justify-content-between">
+                                        <div class="mb-5">
+                                            <h6 class="display-4 mb-3" style="font-size: 20px">@details.Catalog.Name:</h6>
+                                            <small class="display-4" style="font-size: 15px">Quantity: <span class="badge badge-secondary badge-pill" style="font-size: 14px">@details.Count</span></small>
+                                        </div>
+                                        <span class="text-muted">@(details.Catalog.Price * details.Count)€</span>
+                                        @{ total += (details.Catalog.Price * details.Count);}
+                                    </li>
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between bg-dark">
+                                        <small class="display-4 text-white" style="font-size: 15px">Total:</small>
+                                        <strong class="display-4 text-white" style="font-size: 15px">@total€</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <div class="row">
+                        <div class="col-12 col-md-4 offset-md-8">
+                            @{ 
+                                var OrderTotalForStripe = Model.detailCart.OrderHeaders.OrderTotal * 100;
+                            }
+                            <script src="https://checkout.stripe.com/checkout.js"
+                                    class="stripe-button"
+                                    data-key="@Stripe.Value.PublishableKey"
+                                    data-amount="@OrderTotalForStripe"
+                                    data-name="Apple"
+                                    data-label="Place Order"
+                                    data-locale="auto"
+                                    data-allow-remember-me="false"
+                                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png">
+                            </script>
+
+                            <script>document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';</script>
+                            <button type="submit" onclick="return validateInput()" value="Buy" class="btn btn-outline-warning form-control">Buy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>
+
+@section Scripts{ 
+<script>
+    $(function () {
+        $("#datepicker").datepicker({ minDate: 1, maxDate: "+1W" });
+    });
+
+
+    function validateInput() {
+        var dt = document.getElementById("datepicker").value;
+        var name = document.getElementById("txtName").value;
+        var phone = document.getElementById("txtPhone").value;
+
+        if (dt.toString() == '') {
+            swal("Error", "Please select pickup Date", "error");
+            return false;
+        }
+        if (name.toString() == '') {
+            swal("Error", "Please enter picup Name", "error");
+            return false;
+        }
+        if (phone.toString() == '') {
+            swal("Error", "Please enter Phone Number", "error");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+}
+

@@ -1,0 +1,43 @@
+﻿@page
+@using Settings
+
+
+@if (User.IsInRole(SD.ManagerRole))
+{
+		<div class="container mb-5">
+			<div class="row">
+				<div class="col">
+					<div class=" ml-0 row container">
+						<h2 class="display-4 ">Users List:</h2>
+						<div class="col text-right">
+							<a asp-page="/Account/Register" asp-area="Identity" class="btn btn-outline-success mt-3"><i class="fas fa-plus-circle"></i> &nbsp; Create New</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br /><br />
+			<table id="DT_load" class="table bg-dark table-bordered" style="width:100%">
+				<thead>
+					<tr class="text-white">
+						<th>Full Name</th>
+						<th>Email</th>
+						<th>Phone Number</th>
+						<th></th>
+					</tr>
+				</thead>
+			</table>
+		</div> 
+}
+else
+{
+	<div>
+		<h1 class="text-danger"> Access Denied</h1>
+	</div>
+}
+
+
+
+
+@section Scripts{
+	<script src="~/js/user.js"></script>
+}

@@ -1,0 +1,32 @@
+﻿@page
+@model Apple.Pages.Admin.ProductType.IndexModel
+
+
+<div class="container mb-5">
+	<div>
+		<div class="row">
+			<div class="col">
+				<div class=" ml-0 row container">
+					<h2 class="display-4  mb-4">Products: </h2>
+
+					<div class="col text-right">
+						<a asp-page="Edit" class="btn btn-outline-success mt-3"><i class="fas fa-plus-circle"></i> &nbsp; Create Product</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br /><br />
+		<table id="DT_load" class="table table-bordered bg-dark" style="width:100%">
+			<thead>
+				<tr class="text-white">
+					<th>Product Type</th>
+					<th></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+@section Scripts{
+	<script src="~/js/product.js"></script>
+}

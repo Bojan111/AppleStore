@@ -1,0 +1,46 @@
+﻿@page
+@model Apple.Pages.Admin.ProductType.EditModel
+
+
+<form method="post" asp-action="Edit">
+	<div class="container mb-5">
+		<div class="row px-2 mx-2">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			@if (Model.ProductType.Id != 0)
+			{
+			<input type="hidden" asp-for="ProductType.Id" />			}
+
+			<div class="col-12 px-3">
+				<div class="" style="border-radius: 10px">
+					<h2 class="display-2 ">@(Model.ProductType.Id != 0 ? "Update" : "Create") Product</h2>
+				</div>
+			</div>
+
+			<div class="col-8 pt-3">
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="ProductType.Name"></label>
+					</div>
+					<div class="col-9">
+						<input class="form-control" asp-for="ProductType.Name" />
+						<span class="text-danger" asp-validation-for="ProductType.Name"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-9 offset-3">
+						<div class="row">
+							<div class="col-6">
+								<button type="submit" class="btn btn-outline-primary form-control">@(Model.ProductType.Id != 0 ? "Update" : "Create")</button>
+							</div>
+							<div class="">
+								<a asp-page="./Index" class="btn btn-outline-success form-control">Back to List</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+

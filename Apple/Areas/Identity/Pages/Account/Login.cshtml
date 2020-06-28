@@ -1,0 +1,38 @@
+﻿@page
+@model LoginModel
+
+<div id="logreg-forms">
+
+	<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+		<h1 class="mb-3 display-4 ml-5" style="text-align:center; font-size: 51px; margin-left:10rem !important">Sign In</h1>
+		<div class="social-login pb-0 mb-0">
+			@if (Model.ExternalLogins?.Count > 0)
+			{
+@foreach (var provider in Model.ExternalLogins)
+{
+
+
+<button type="submit" class="btn btn-block form-control" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook-square"></i> Sign in with @provider.DisplayName</button>
+
+
+					<button type="submit" class="btn btn-block  form-control" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-windows"></i> Sign in with @provider.DisplayName</button>
+
+										<button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>}}
+		</div>
+	</form>
+	<form id="account" method="post" class="ml-5" style="margin-left:11rem !important">
+		@if (Model.ExternalLogins?.Count > 0)
+		{
+<p style="text-align:center"> OR </p>}
+		<input asp-for="Input.Email" placeholder="Email" type="email" required="" autofocus="" class="mb-2 form-control" />
+		<input asp-for="Input.Password" placeholder="Password..." type="password" required="" class="form-control mb-2" />
+		<button type="submit" class="btn btn-outline-success btn-block mb-2"><i class="fas fa-sign-in-alt"></i> Sign in</button>
+		<a id="forgot-password" asp-page="./ForgotPassword" class="pb-2 nav-link">Forgot your password?</a>
+		<div asp-validation-summary="All" class="text-danger"></div>
+		<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-outline-primary mb-5" id="btn-signup"><i class="fas fa-user-plus"></i> Register as a new user</a>
+	</form>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

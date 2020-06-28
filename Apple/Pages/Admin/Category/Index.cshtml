@@ -1,0 +1,30 @@
+﻿@page
+@model Apple.Pages.Admin.Category.IndexModel
+
+<div class="container mb-5">
+	<div class="row">
+		<div class="col">
+			<div class="ml-0 row container mb-5">
+				<h2 class="display-4">Categories:</h2>
+				<div class="col text-right">
+					<a asp-page="Edit" class="btn btn-outline-success mt-3"><i class="fas fa-plus-circle"></i> &nbsp; Create Category</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<br /><br />
+	<table id="DT_load" class="table table-bordered bg-dark">
+		<thead>
+			<tr class="text-white">
+				<th>Category Name</th>
+				<th>Display Order</th>
+				<th></th>
+			</tr>
+		</thead>
+	</table>
+</div>
+
+@section Scripts{
+	<script src="~/js/category.js"></script>
+}

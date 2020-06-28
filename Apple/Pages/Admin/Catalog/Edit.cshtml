@@ -1,0 +1,120 @@
+﻿@page
+@model Apple.Pages.Admin.Catalog.EditModel
+
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+	<div class="container mb-5">
+		<div class="row px-2 mx-2">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			@if (Model.CatalogModel.Catalogs.Id != 0)
+			{
+<input type="hidden" asp-for="CatalogModel.Catalogs.Id" />}
+
+			<div class="col-12 px-3">
+				<div class="" style="border-radius: 10px">
+					<h2 class="display-4 ">@(Model.CatalogModel.Catalogs.Id != 0 ? "Update" : "Create") Catalog</h2>
+				</div>
+			</div>
+
+			<div class="col-8 pt-3">
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.Name"></label>
+					</div>
+					<div class="col-9">
+						<input class="form-control" asp-for="CatalogModel.Catalogs.Name" />
+						<span class="text-danger" asp-validation-for="CatalogModel.Catalogs.Name"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.Price"></label>
+					</div>
+					<div class="col-9">
+						<input class="form-control" asp-for="CatalogModel.Catalogs.Price" />
+						<span class="text-danger" asp-validation-for="CatalogModel.Catalogs.Price"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.Specifications">Specifications</label>
+					</div>
+					<div class="col-9">
+						<textarea class="form-control" asp-for="CatalogModel.Catalogs.Specifications"></textarea>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.Image"></label>
+					</div>
+					<div class="col-9">
+						<input type="file" class="form-control" name="files" id="upload" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.CategoryId"></label>
+					</div>
+					<div class="col-9">
+						@Html.DropDownListFor(m => m.CatalogModel.Catalogs.CategoryId,
+													 Model.CatalogModel.CategoryList,
+													 "- Please select a Category -",
+													 new { @class = "form-control" })
+						<span class="text-danger" asp-validation-for="CatalogModel.Catalogs.CategoryId"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-3">
+						<label class="lead" asp-for="CatalogModel.Catalogs.ProductTypeId"></label>
+					</div>
+					<div class="col-9">
+						@Html.DropDownListFor(m => m.CatalogModel.Catalogs.ProductTypeId,
+													 Model.CatalogModel.ProductTypeList,
+													 "- Please select a Product Type -",
+													 new { @class = "form-control" })
+						<span class="text-danger" asp-validation-for="CatalogModel.Catalogs.ProductTypeId"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-9 offset-3">
+						<div class="row">
+							<div class="col-6">
+
+								@if (Model.CatalogModel.Catalogs.Id != 0)
+								{
+					<button type="submit" class="btn btn-outline-primary form-control">Update</button> }
+								else
+								{
+					<button type="submit" onclick="return ValidateInput()" class="btn btn-outline-primary form-control">Create</button>}
+
+							</div>
+							<div class="">
+								<a asp-page="./Index" class="btn btn-outline-success form-control">Back to List</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			@if (Model.CatalogModel.Catalogs != null)
+			{
+<div class="col-4 p-4">
+	<img src="@Model.CatalogModel.Catalogs.Image" style="border-radius: 5px; width: 100% " />
+</div>}
+
+
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+	<script>
+		function ValidateInput() {
+			if (document.getElementById("upload").value == "") {
+				swal("Error", "Please Select an Image", "error")
+				return false;
+			}
+			return true;
+		};
+	</script>
+}
